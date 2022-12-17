@@ -36,8 +36,17 @@ func (h *Handler) LoadBalancerHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("error getting url : %+v", err)
 	}
 
-	h.Id++
+	// h.Id++
+	h.setId()
 	h.Mu.Unlock()
 	reverseProxy := httputil.NewSingleHostReverseProxy(targetURL)
 	reverseProxy.ServeHTTP(w, r)
+}
+
+func (h *Handler) setId() {
+	if h.Id == 2 {
+		h.Id = 0
+		return
+	}
+	h.Id++
 }
