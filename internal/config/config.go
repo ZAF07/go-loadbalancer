@@ -27,7 +27,7 @@ type Backend struct {
 func LoadConfigs() *Config {
 	config := &Config{}
 	var configFilepath string
-	flag.StringVar(&configFilepath, "config file path", "config.yml", "Path to config file")
+	flag.StringVar(&configFilepath, "config", "config.yml", "Path to config file")
 	v := viper.New()
 	v.SetConfigFile(configFilepath)
 	v.ReadInConfig()
