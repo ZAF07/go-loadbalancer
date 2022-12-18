@@ -20,7 +20,7 @@ func Serve(cfg *config.Config) {
 		Addr:    cfg.Proxy.Port,
 		Handler: http.HandlerFunc(handler.LoadBalancerHandler),
 	}
-
+	log.Println("SERVER STARTED")
 	if err := s.ListenAndServe(); err != nil {
 		log.Fatal(err.Error())
 	}

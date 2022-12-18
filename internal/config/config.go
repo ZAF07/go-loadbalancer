@@ -3,7 +3,6 @@ package config
 import (
 	"flag"
 	"log"
-	"sync"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
@@ -19,9 +18,12 @@ type Proxy struct {
 }
 
 type Backend struct {
-	IsDead bool
+	IsDead bool   `mapstructure:"isDead" json:"isDead"`
 	URL    string `mapstructure:"url" json:"url"`
-	Mu     sync.RWMutex
+}
+
+func (b *Backend) GetStatus() bool {
+	return b.IsDead
 }
 
 func LoadConfigs() *Config {
@@ -38,6 +40,7 @@ func LoadConfigs() *Config {
 		log.Printf("config has changed")
 		unmarshalConfig(config, v)
 	})
+	log.Println("CONFIG LOADED")
 	return config
 }
 
